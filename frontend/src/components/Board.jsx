@@ -12,204 +12,128 @@ import whiteknight from "../assets/chess_pieces/white-knight.png";
 import whiterook from "../assets/chess_pieces/white-rook.png";
 import whitebishop from "../assets/chess_pieces/white-bishop.png";
 import whitequeen from "../assets/chess_pieces/white-queen.png";
+import { useState } from "react";
 
 const Board = () => {
   const square = "w-20 h-20";
+
+  const [rotate, setRotate] = useState(false);
+  const [boardUI, setBoardUI] = useState(null);
+
+  const [chessBoard,setchessBoard]=useState([
+    ["", "n", "b", "q", "k", "b", "n", "r"],
+    ["p", "p", "p", "p", "p", "p", "p", "p"],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "Q", ""],
+    ["r", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["P", "P", "P", "P", "P", "P", "P", "P"],
+    ["R", "N", "B", "", "K", "B", "N", "R"],
+  ])
+
+
+  const mp = {
+    r: blackrook,
+    n: blackknight,
+    b: blackbishop,
+    q: blackqueen,
+    k: blackking,
+    p:blackpawn,
+
+    R: whiterook,
+    N: whiteknight,
+    B: whitebishop,
+    Q: whitequeen,
+    K: whiteking,
+    P:whitepawn
+  };
+
+  useState(() => {
+    let temp = [];
+    for (let row = 0; row < 8; row++) {
+      if (row == 0) {
+        temp.push(
+          <tr className={`text-lg text-center bg-gray-100`}>
+            <td></td>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>D</td>
+            <td>E</td>
+            <td>F</td>
+            <td>G</td>
+            <td>H</td>
+            <td></td>
+          </tr>
+        );
+      }
+      temp.push(
+        <tr key={row}>
+          <td className="text-lg bg-gray-100 text-center p-2">{8 - row}</td>
+
+          {[...Array(8)].map((_, col) => {
+            const squareColor =
+              (row + col) % 2 === 0 ? "bg-white" : "bg-green-500";
+            const squareId = String.fromCharCode(97 + col) + (8 - row);
+
+            let pieceImg = null;
+            if (chessBoard[row][col]) {
+              pieceImg = (
+                <img
+                  className={`${square}`}
+                  src={mp[chessBoard[row][col]]}
+                  alt=""
+                />
+              );
+            }
+
+            return (
+              <td
+                key={col}
+                className={` ${square} text-center ${squareColor}`}
+                id="a8"
+                onClick={()=>{
+                    alert()
+                }}
+              >
+                {pieceImg}
+                {/* {squareId} */}
+              </td>
+            );
+          })}
+          <td className="text-lg bg-gray-100 text-center p-2">{8 - row}</td>
+        </tr>
+      );
+
+      if (row == 7) {
+        temp.push(
+          <tr className={`text-lg text-center bg-gray-100`}>
+            <td></td>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>D</td>
+            <td>E</td>
+            <td>F</td>
+            <td>G</td>
+            <td>H</td>
+            <td></td>
+          </tr>
+        );
+      }
+    }
+    setBoardUI(temp);
+  }, [chessBoard]);
+
+  
   return (
     <div className="flex justify-center">
-      <table className="border border-black-500 text-6xl ">
-        {/* border */}
-
-        <tr className="text-lg text-center bg-gray-100">
-          <td></td>
-          <td>A</td>
-          <td>B</td>
-          <td>C</td>
-          <td>D</td>
-          <td>E</td>
-          <td>F</td>
-          <td>G</td>
-          <td>H</td>
-          <td></td>
-        </tr>
-
-        {/* actual board */}
-        <tr>
-          <td className="text-lg bg-gray-100 text-center p-2">8</td>
-          <td className={` ${square} text-center`}>
-            <img className={`${square}`} src={blackrook} alt="" />
-          </td>
-          <td className={`${square} text-center bg-green-400`}>
-            <img className={`${square}`} src={blackknight} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={blackbishop} alt="" />
-          </td>
-          <td className={`${square} text-center bg-green-400 `}>
-            <img className={`${square}`} src={blackqueen} alt="" />
-          </td>
-          <td className={` ${square} text-center`}>
-            <img className={`${square}`} src={blackking} alt="" />
-          </td>
-          <td className={`${square} text-center bg-green-400`}>
-            <img className={`${square}`} src={blackbishop} alt="" />
-          </td>
-          <td className={` ${square} text-center`}>
-            <img className={`${square}`} src={blackknight} alt="" />
-          </td>
-          <td className={`${square} text-center bg-green-400`}>
-            <img className={`${square}`} src={blackrook} alt="" />
-          </td>
-
-          <td className="text-lg bg-gray-100 text-center p-2">8</td>
-        </tr>
-        <tr>
-          <td className="text-lg bg-gray-100 text-center">7</td>
-          <td className={`${square} text-center bg-green-400`}>
-            <img className={`${square}`} src={blackpawn} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={blackpawn} alt="" />
-          </td>
-          <td className={`${square} text-center bg-green-400`}>
-            <img className={`${square}`} src={blackpawn} alt="" />
-          </td>
-          <td className={` ${square} text-center `}>
-            <img className={`${square}`} src={blackpawn} alt="" />
-          </td>
-          <td className={`${square} text-center bg-green-400`}>
-            <img className={`${square}`} src={blackpawn} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={blackpawn} alt="" />
-          </td>
-          <td className={`${square} text-center bg-green-400`}>
-            <img className={`${square}`} src={blackpawn} alt="" />
-          </td>
-          <td className={` ${square} text-center`}>
-            <img className={`${square}`} src={blackpawn} alt="" />
-          </td>
-          <td className="text-lg bg-gray-100 text-center">7</td>
-        </tr>
-        <tr>
-          <td className="text-lg bg-gray-100 text-center">6</td>
-
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className="text-lg bg-gray-100 text-center">6</td>
-        </tr>
-        <tr>
-          <td className="text-lg bg-gray-100 text-center">5</td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className="text-lg bg-gray-100 text-center">5</td>
-        </tr>
-        <tr>
-          <td className="text-lg bg-gray-100 text-center">4</td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className="text-lg bg-gray-100 text-center">4</td>
-        </tr>
-        <tr>
-          <td className="text-lg bg-gray-100 text-center">3</td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className={`bg-green-400 ${square} text-center`}></td>
-          <td className={`${square} text-center`}></td>
-          <td className="text-lg bg-gray-100 text-center">3</td>
-        </tr>
-        <tr>
-          <td className="text-lg bg-gray-100 text-center">2</td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={whitepawn} alt="" />
-          </td>
-          <td className={`bg-green-400 ${square} text-center`}>
-            <img className={`${square}`} src={whitepawn} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={whitepawn} alt="" />
-          </td>
-          <td className={`bg-green-400 ${square} text-center`}>
-            <img className={`${square}`} src={whitepawn} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={whitepawn} alt="" />
-          </td>
-          <td className={`bg-green-400 ${square} text-center`}>
-            <img className={`${square}`} src={whitepawn} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={whitepawn} alt="" />
-          </td>
-          <td className={`bg-green-400 ${square} text-center`}>
-            <img className={`${square}`} src={whitepawn} alt="" />
-          </td>
-          <td className="text-lg bg-gray-100 text-center">2</td>
-        </tr>
-        <tr>
-          <td className="text-lg bg-gray-100 text-center">1</td>
-          <td className={`bg-green-400 ${square} text-center`}>
-            <img className={`${square}`} src={whiterook} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={whiteknight} alt="" />
-          </td>
-          <td className={`bg-green-400 ${square} text-center`}>
-            <img className={`${square}`} src={whitebishop} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={whitequeen} alt="" />
-          </td>
-          <td className={`bg-green-400 ${square} text-center`}>
-            <img className={`${square}`} src={whiteking} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={whitebishop} alt="" />
-          </td>
-          <td className={`bg-green-400 ${square} text-center`}>
-            <img className={`${square}`} src={whiteknight} alt="" />
-          </td>
-          <td className={`${square} text-center`}>
-            <img className={`${square}`} src={whiterook} alt="" />
-          </td>
-          <td className="text-lg bg-gray-100 text-center">1</td>
-        </tr>
-
-        {/* border */}
-        <tr className="text-lg text-center bg-gray-100">
-          <td></td>
-          <td>A</td>
-          <td>B</td>
-          <td>C</td>
-          <td>D</td>
-          <td>E</td>
-          <td>F</td>
-          <td>G</td>
-          <td>H</td>
-          <td></td>
-        </tr>
+      <table
+        className={`border border-black-500 text-6xl ${
+          rotate ? "rotate-180" : ""
+        }`}
+      >
+        {boardUI}
       </table>
     </div>
   );
