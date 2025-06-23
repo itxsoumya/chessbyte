@@ -17,8 +17,8 @@ import { useState } from "react";
 const Board = () => {
   const square = "w-20 h-20";
 
-  const [rotate, setRotate] = useState(false);
-  const [boardUI, setBoardUI] = useState(null);
+  const [rotate, setRotate] = useState<boolean>(false);
+  const [boardUI, setBoardUI] = useState<any>(null);
 
   const [chessBoard,setchessBoard]=useState([
     ["", "n", "b", "q", "k", "b", "n", "r"],
@@ -34,7 +34,7 @@ const Board = () => {
   const [selected,setSelected] = useState(false)
   
 
-  const mp = {
+  const mp:any = {
     r: blackrook,
     n: blackknight,
     b: blackbishop,
@@ -87,7 +87,7 @@ const Board = () => {
                   alt=""
                   data-col={col}
                 data-row={row}
-                  onClick={(event)=>{
+                  onClick={(event:any)=>{
                     console.log(`col ${event.target.dataset.col} ${event.target.dataset.row}, `)
                 }}
                 />
@@ -101,7 +101,7 @@ const Board = () => {
                 data-row={row}
                 className={` ${square} text-center ${squareColor}`}
                 
-                onClick={(event)=>{
+                onClick={(event:any)=>{
                     console.log(`col ${event.target.dataset.col} ${event.target.dataset.row}, `)
                 }}
               >
@@ -134,7 +134,9 @@ const Board = () => {
       }
     }
     setBoardUI(temp);
-  }, [chessBoard]);
+  }, );
+
+//   
 
   
   return (
