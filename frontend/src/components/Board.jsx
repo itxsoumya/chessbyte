@@ -31,6 +31,8 @@ const Board = () => {
     ["R", "N", "B", "", "K", "B", "N", "R"],
   ])
 
+  const [selected,setSelected] = useState(false)
+  
 
   const mp = {
     r: blackrook,
@@ -83,6 +85,11 @@ const Board = () => {
                   className={`${square}`}
                   src={mp[chessBoard[row][col]]}
                   alt=""
+                  data-col={col}
+                data-row={row}
+                  onClick={(event)=>{
+                    console.log(`col ${event.target.dataset.col} ${event.target.dataset.row}, `)
+                }}
                 />
               );
             }
@@ -90,14 +97,18 @@ const Board = () => {
             return (
               <td
                 key={col}
+                data-col={col}
+                data-row={row}
                 className={` ${square} text-center ${squareColor}`}
-                id="a8"
-                onClick={()=>{
-                    alert()
+                
+                onClick={(event)=>{
+                    console.log(`col ${event.target.dataset.col} ${event.target.dataset.row}, `)
                 }}
               >
                 {pieceImg}
-                {/* {squareId} */}
+                {/* <span className="text-sm">
+                    {squareId}
+                </span> */}
               </td>
             );
           })}
@@ -132,8 +143,12 @@ const Board = () => {
         className={`border border-black-500 text-6xl ${
           rotate ? "rotate-180" : ""
         }`}
+        
       >
+        <tbody>
+
         {boardUI}
+        </tbody>
       </table>
     </div>
   );
