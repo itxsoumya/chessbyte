@@ -17,8 +17,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 export const Signup = () => {
   const navigate = useNavigate();
   return (
-    <div className=" flex justify-center items-center min-h-[70vh] ">
-      <Card className="w-full max-w-sm">
+    <div className=" flex justify-center items-center min-h-[75vh] sm:min-h-[70vh] ">
+      <Card className="w-full max-w-sm max-sm:border-0 max-sm:shadow-none">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>

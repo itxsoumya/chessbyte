@@ -6,16 +6,18 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Route } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Landing from "./components/Landing";
 
 const App = () => {
   return (
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-    <div className="p-2 sm:p-3 bg-green-500x min-h-screen">
+    <div className=" min-h-screen">
         <NavBar />
         <br />
 
         <Routes>
-          <Route path="/" element={<Board />} />
+          <Route path="/" element={<Landing/>} />
+          <Route path="/board" element={<Board />} />
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
         </Routes>
