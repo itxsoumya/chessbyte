@@ -15,7 +15,8 @@ import whitequeen from "../assets/chess_pieces/white-queen.png";
 import { useState } from "react";
 
 const Board = () => {
-  const square = "w-20 h-20";
+  const square = "w-20 h-20 ";
+  // const square = "w-";
 
   const [rotate, setRotate] = useState<boolean>(false);
   const [boardUI, setBoardUI] = useState<any>(null);
@@ -55,11 +56,11 @@ const Board = () => {
     for (let row = 0; row < 8; row++) {
       if (row == 0) {
         temp.push(
-          <tr className={`text-lg text-center bg-gray-100`}>
+          <tr className={`text-lg text-center light:bg-gray-100 text-zinc-900x`}>
             <td></td>
             <td>A</td>
             <td>B</td>
-            <td>C</td>
+            <td>C</td> 
             <td>D</td>
             <td>E</td>
             <td>F</td>
@@ -71,7 +72,7 @@ const Board = () => {
       }
       temp.push(
         <tr key={row}>
-          <td className="text-lg bg-gray-100 text-center p-2">{8 - row}</td>
+          <td className="text-lg light:bg-gray-100 text-center p-2">{8 - row}</td>
 
           {[...Array(8)].map((_, col) => {
             const squareColor =
@@ -112,13 +113,13 @@ const Board = () => {
               </td>
             );
           })}
-          <td className="text-lg bg-gray-100 text-center p-2">{8 - row}</td>
+          <td className="text-lg light:bg-gray-100 text-center p-2">{8 - row}</td>
         </tr>
       );
 
       if (row == 7) {
         temp.push(
-          <tr className={`text-lg text-center bg-gray-100`}>
+          <tr className={`text-lg text-center light:bg-gray-100`}>
             <td></td>
             <td>A</td>
             <td>B</td>
@@ -140,7 +141,7 @@ const Board = () => {
 
   
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center ">
       <table
         className={`border border-black-500 text-6xl ${
           rotate ? "rotate-180" : ""
