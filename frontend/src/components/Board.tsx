@@ -15,8 +15,8 @@ import whitequeen from "../assets/chess_pieces/white-queen.png";
 import { useState } from "react";
 
 const Board = () => {
-  const square = "w-20 h-20 ";
-  // const square = "w-";
+  // const square = "w-20 h-20 ";
+  const square = "w-[38px] h-[38px] md:w-20 md:h-20 sm:w-15 sm:h-15";
 
   const [rotate, setRotate] = useState<boolean>(false);
   const [boardUI, setBoardUI] = useState<any>(null);
@@ -56,23 +56,23 @@ const Board = () => {
     for (let row = 0; row < 8; row++) {
       if (row == 0) {
         temp.push(
-          <tr className={`text-lg text-center light:bg-gray-100 text-zinc-900x`}>
+          <tr className={`md:text-lg text-sm text-center light:bg-gray-100 text-zinc-900x `}>
             <td></td>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td> 
-            <td>D</td>
-            <td>E</td>
-            <td>F</td>
-            <td>G</td>
-            <td>H</td>
+            <td>a</td>
+            <td>b</td>
+            <td>c</td> 
+            <td>d</td>
+            <td>e</td>
+            <td>f</td>
+            <td>g</td>
+            <td>h</td>
             <td></td>
           </tr>
         );
       }
       temp.push(
         <tr key={row}>
-          <td className="text-lg light:bg-gray-100 text-center p-2">{8 - row}</td>
+          <td className="text-sm md:text-lg light:bg-gray-100 text-center p-0.5 md:p-2">{8 - row}</td>
 
           {[...Array(8)].map((_, col) => {
             const squareColor =
@@ -113,22 +113,22 @@ const Board = () => {
               </td>
             );
           })}
-          <td className="text-lg light:bg-gray-100 text-center p-2">{8 - row}</td>
+          <td className="text-sm md:text-lg light:bg-gray-100 text-center p-0.5 md:p-2">{8 - row}</td>
         </tr>
       );
 
       if (row == 7) {
         temp.push(
-          <tr className={`text-lg text-center light:bg-gray-100`}>
+          <tr className={`md:text-lg text-sm text-center light:bg-gray-100`}>
             <td></td>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
-            <td>D</td>
-            <td>E</td>
-            <td>F</td>
-            <td>G</td>
-            <td>H</td>
+            <td>a</td>
+            <td>b</td>
+            <td>c</td> 
+            <td>d</td>
+            <td>e</td>
+            <td>f</td>
+            <td>g</td>
+            <td>h</td>
             <td></td>
           </tr>
         );
@@ -143,7 +143,7 @@ const Board = () => {
   return (
     <div className="flex justify-center ">
       <table
-        className={`border border-black-500 text-6xl ${
+        className={`border border-black-500 text-6xlcc ${
           rotate ? "rotate-180" : ""
         }`}
         
