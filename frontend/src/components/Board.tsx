@@ -21,7 +21,7 @@ const Board = () => {
   const [rotate, setRotate] = useState<boolean>(false);
   const [boardUI, setBoardUI] = useState<any>(null);
 
-  const [chessBoard,setchessBoard]=useState([
+  const [chessBoard, setchessBoard] = useState([
     ["", "n", "b", "q", "k", "b", "n", "r"],
     ["p", "p", "p", "p", "p", "p", "p", "p"],
     ["", "", "", "", "", "", "", ""],
@@ -30,25 +30,24 @@ const Board = () => {
     ["", "", "", "", "", "", "", ""],
     ["P", "P", "P", "P", "P", "P", "P", "P"],
     ["R", "N", "B", "", "K", "B", "N", "R"],
-  ])
+  ]);
 
-  const [selected,setSelected] = useState(false)
-  
+  const [selected, setSelected] = useState(false);
 
-  const mp:any = {
+  const mp: any = {
     r: blackrook,
     n: blackknight,
     b: blackbishop,
     q: blackqueen,
     k: blackking,
-    p:blackpawn,
+    p: blackpawn,
 
     R: whiterook,
     N: whiteknight,
     B: whitebishop,
     Q: whitequeen,
     K: whiteking,
-    P:whitepawn
+    P: whitepawn,
   };
 
   useState(() => {
@@ -56,11 +55,13 @@ const Board = () => {
     for (let row = 0; row < 8; row++) {
       if (row == 0) {
         temp.push(
-          <tr className={`md:text-lg text-sm text-center light:bg-gray-100 text-zinc-900x `}>
+          <tr
+            className={`md:text-lg text-sm text-center light:bg-gray-100 text-zinc-900x `}
+          >
             <td></td>
             <td>a</td>
             <td>b</td>
-            <td>c</td> 
+            <td>c</td>
             <td>d</td>
             <td>e</td>
             <td>f</td>
@@ -72,7 +73,9 @@ const Board = () => {
       }
       temp.push(
         <tr key={row}>
-          <td className="text-sm md:text-lg light:bg-gray-100 text-center p-0.5 md:p-2">{8 - row}</td>
+          <td className="text-sm md:text-lg light:bg-gray-100 text-center p-0.5 md:p-2">
+            {8 - row}
+          </td>
 
           {[...Array(8)].map((_, col) => {
             const squareColor =
@@ -87,10 +90,12 @@ const Board = () => {
                   src={mp[chessBoard[row][col]]}
                   alt=""
                   data-col={col}
-                data-row={row}
-                  onClick={(event:any)=>{
-                    console.log(`col ${event.target.dataset.col} ${event.target.dataset.row}, `)
-                }}
+                  data-row={row}
+                  onClick={(event: any) => {
+                    console.log(
+                      `col ${event.target.dataset.col} ${event.target.dataset.row}, `
+                    );
+                  }}
                 />
               );
             }
@@ -101,9 +106,10 @@ const Board = () => {
                 data-col={col}
                 data-row={row}
                 className={` ${square} text-center ${squareColor}`}
-                
-                onClick={(event:any)=>{
-                    console.log(`col ${event.target.dataset.col} ${event.target.dataset.row}, `)
+                onClick={(event: any) => {
+                  console.log(
+                    `col ${event.target.dataset.col} ${event.target.dataset.row}, `
+                  );
                 }}
               >
                 {pieceImg}
@@ -113,7 +119,9 @@ const Board = () => {
               </td>
             );
           })}
-          <td className="text-sm md:text-lg light:bg-gray-100 text-center p-0.5 md:p-2">{8 - row}</td>
+          <td className="text-sm md:text-lg light:bg-gray-100 text-center p-0.5 md:p-2">
+            {8 - row}
+          </td>
         </tr>
       );
 
@@ -123,7 +131,7 @@ const Board = () => {
             <td></td>
             <td>a</td>
             <td>b</td>
-            <td>c</td> 
+            <td>c</td>
             <td>d</td>
             <td>e</td>
             <td>f</td>
@@ -135,25 +143,14 @@ const Board = () => {
       }
     }
     setBoardUI(temp);
-  }, );
+  });
 
-//   
+  //
 
-  
   return (
-    <div className="flex justify-center ">
-      <table
-        className={`border border-black-500 text-6xlcc ${
-          rotate ? "rotate-180" : ""
-        }`}
-        
-      >
-        <tbody>
-
-        {boardUI}
-        </tbody>
-      </table>
-    </div>
+    <table className={`border border-black-500  ${rotate ? "rotate-180" : ""}`}>
+      <tbody>{boardUI}</tbody>
+    </table>
   );
 };
 
