@@ -8,6 +8,7 @@ import Signup from "./components/Signup";
 import Landing from "./components/Landing";
 import Game from "./components/Game";
 import Board from "./components/Board";
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
     <div className=" min-h-screen">
         <NavBar />
         <br />
-
+        <Toaster/>
         <Routes>
           <Route path="/" element={<Landing/>} />
           <Route path="/board" element={<Board/>} />
