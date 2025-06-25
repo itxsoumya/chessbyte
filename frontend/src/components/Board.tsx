@@ -12,146 +12,67 @@ import whiteknight from "../assets/chess_pieces/white-knight.png";
 import whiterook from "../assets/chess_pieces/white-rook.png";
 import whitebishop from "../assets/chess_pieces/white-bishop.png";
 import whitequeen from "../assets/chess_pieces/white-queen.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Chess } from "chess.js";
+import useChess from "@/hooks/useChess";
 
-const Board = () => {
-  // const square = "w-20 h-20 ";
-  const square = "w-[38px] h-[38px] md:w-20 md:h-20 sm:w-15 sm:h-15";
-
+const Board = ({ showSquareId=false }: { showSquareId?: boolean }) => {
+  const pgn = "1. d4 d6 2. e4 g6 3. Nc3 Nf6";
   const [rotate, setRotate] = useState<boolean>(false);
   const [boardUI, setBoardUI] = useState<any>(null);
-
-  const [chessBoard, setchessBoard] = useState([
-    ["", "n", "b", "q", "k", "b", "n", "r"],
-    ["p", "p", "p", "p", "p", "p", "p", "p"],
-    ["", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "Q", ""],
-    ["r", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", ""],
-    ["P", "P", "P", "P", "P", "P", "P", "P"],
-    ["R", "N", "B", "", "K", "B", "N", "R"],
-  ]);
+  const chess = useChess(pgn);
+  const board = [];
 
   const [selected, setSelected] = useState(false);
 
   const mp: any = {
-    r: blackrook,
-    n: blackknight,
-    b: blackbishop,
-    q: blackqueen,
-    k: blackking,
-    p: blackpawn,
+    br: blackrook,
+    bn: blackknight,
+    bb: blackbishop,
+    bq: blackqueen,
+    bk: blackking,
+    bp: blackpawn,
 
-    R: whiterook,
-    N: whiteknight,
-    B: whitebishop,
-    Q: whitequeen,
-    K: whiteking,
-    P: whitepawn,
+    wr: whiterook,
+    wn: whiteknight,
+    wb: whitebishop,
+    wq: whitequeen,
+    wk: whiteking,
+    wp: whitepawn,
   };
 
-  useState(() => {
-    let temp = [];
-    for (let row = 0; row < 8; row++) {
-      if (row == 0) {
-        temp.push(
-          <tr
-            className={`md:text-lg text-sm text-center light:bg-gray-100 text-zinc-900x `}
-          >
-            <td></td>
-            <td>a</td>
-            <td>b</td>
-            <td>c</td>
-            <td>d</td>
-            <td>e</td>
-            <td>f</td>
-            <td>g</td>
-            <td>h</td>
-            <td></td>
-          </tr>
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      const squareColor = (row + col) % 2 === 0 ? "bg-white" : "bg-green-500";
+      const squareId = String.fromCharCode(97 + col) + (8 - row);
+      const piece = chess.board()[row][col];
+
+      let pieceImg = null;
+      if (piece) {
+        pieceImg = (
+          <img
+            className="w-full aspect-square"
+            src={mp[piece.color + piece.type]}
+            alt="no image"
+          />
         );
       }
-      temp.push(
-        <tr key={row}>
-          <td className="text-sm md:text-lg light:bg-gray-100 text-center p-0.5 md:p-2">
-            {8 - row}
-          </td>
-
-          {[...Array(8)].map((_, col) => {
-            const squareColor =
-              (row + col) % 2 === 0 ? "bg-white" : "bg-green-500";
-            const squareId = String.fromCharCode(97 + col) + (8 - row);
-
-            let pieceImg = null;
-            if (chessBoard[row][col]) {
-              pieceImg = (
-                <img
-                  className={`${square}`}
-                  src={mp[chessBoard[row][col]]}
-                  alt=""
-                  data-col={col}
-                  data-row={row}
-                  onClick={(event: any) => {
-                    console.log(
-                      `col ${event.target.dataset.col} ${event.target.dataset.row}, `
-                    );
-                  }}
-                />
-              );
-            }
-
-            return (
-              <td
-                key={col}
-                data-col={col}
-                data-row={row}
-                className={` ${square} text-center ${squareColor}`}
-                onClick={(event: any) => {
-                  console.log(
-                    `col ${event.target.dataset.col} ${event.target.dataset.row}, `
-                  );
-                }}
-              >
-                {pieceImg}
-                {/* <span className="text-sm">
-                    {squareId}
-                </span> */}
-              </td>
-            );
-          })}
-          <td className="text-sm md:text-lg light:bg-gray-100 text-center p-0.5 md:p-2">
-            {8 - row}
-          </td>
-        </tr>
+      board.push(
+        <div className={`${squareColor} w-full aspect-square`}>
+          {/* {squareId} */}
+          {showSquareId ? (
+            <span className="absolute text-xs text-zinc-900">{squareId}</span>
+          ) : (
+            ""
+          )}
+          {pieceImg}
+        </div>
       );
-
-      if (row == 7) {
-        temp.push(
-          <tr className={`md:text-lg text-sm text-center light:bg-gray-100`}>
-            <td></td>
-            <td>a</td>
-            <td>b</td>
-            <td>c</td>
-            <td>d</td>
-            <td>e</td>
-            <td>f</td>
-            <td>g</td>
-            <td>h</td>
-            <td></td>
-          </tr>
-        );
-      }
     }
-    setBoardUI(temp);
-  });
+  }
 
-  //
-
-  return (
-    <table className={`border border-black-500  ${rotate ? "rotate-180" : ""}`}>
-      <tbody>{boardUI}</tbody>
-    </table>
-  );
+  console.log(chess.board());
+  return <div className="grid grid-cols-8 aspect-square w-full border-2">{board}</div>;
 };
 
 export default Board;

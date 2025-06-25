@@ -1,4 +1,4 @@
-import Board from "./Board"
+
 import { Button } from "./ui/button"
 import { useNavigate } from "react-router-dom"
 

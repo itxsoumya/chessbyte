@@ -11,11 +11,9 @@ const Game = () => {
             <Avatar className="rounded-sm">
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
-            
             </Avatar>
 
             <span className="hover:underline cursor-pointer">UserName</span>
-
           </div>
           <div className="p-1">
             <Button>00:05</Button>
@@ -24,16 +22,14 @@ const Game = () => {
         {/* board */}
         <Board />
 
-         <div className="flex justify-between border">
+        <div className="flex justify-between border">
           <div className="p-1 flex gap-2 items-center">
             <Avatar className="rounded-sm">
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
-            
             </Avatar>
 
             <span className="hover:underline cursor-pointer">UserName</span>
-
           </div>
           <div className="p-1">
             <Button>00:05</Button>
