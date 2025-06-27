@@ -12,6 +12,7 @@ const useChess = (pgn:string) => {
         const ci = new Chess()
         ci.loadPgn(pgn)
         setChess(ci)
+        
 
     },[pgn])
 

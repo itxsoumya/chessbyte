@@ -18,15 +18,20 @@ import useChess from "@/hooks/useChess";
 import toast from 'react-hot-toast';
 import wrongmoveaudio from '../assets/audio/wrongmove.mp3'
 import moveaudio from "../assets/audio/move.mp3"
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store/store";
 
 const Board = ({ showSquareId=false }: { showSquareId?: boolean }) => {
   const pgn = "";
   const [rotate, setRotate] = useState<boolean>(false);
-  const [boardUI, setBoardUI] = useState<any>(null);
-  const chess = useChess(pgn);
-  const board = [];
   
-  const [selected, setSelected] = useState(false);
+  // const chess = useChess(pgn);
+  const chess = useSelector((state:RootState)=>state.chessGame)
+  const board = [];
+
+  
+  
+  
 
   const [movefrom,setMovefrom] = useState<null | string>(null)
   const [moveto,setMoveto] = useState<null | string>(null)
