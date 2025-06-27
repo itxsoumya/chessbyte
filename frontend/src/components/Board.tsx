@@ -14,51 +14,55 @@ import whitebishop from "../assets/chess_pieces/white-bishop.png";
 import whitequeen from "../assets/chess_pieces/white-queen.png";
 import { useEffect, useState } from "react";
 import { Chess } from "chess.js";
-import useChess from "@/hooks/useChess";
-import toast from 'react-hot-toast';
-import wrongmoveaudio from '../assets/audio/wrongmove.mp3'
-import moveaudio from "../assets/audio/move.mp3"
+import toast from "react-hot-toast";
+import wrongmoveaudio from "../assets/audio/wrongmove.mp3";
+import moveaudio from "../assets/audio/move.mp3";
 import { useSelector } from "react-redux";
-import type { RootState } from "@/store/store";
+import type { AppDispatch, RootState } from "@/store/store";
+import { useDispatch } from "react-redux";
+import useSocketLogic from "@/hooks/useSocketLogic";
 
-const Board = ({ showSquareId=false }: { showSquareId?: boolean }) => {
-  const pgn = "";
-  const [rotate, setRotate] = useState<boolean>(false);
-  
-  // const chess = useChess(pgn);
-  const chess = useSelector((state:RootState)=>state.chessGame)
+const Board = ({ showSquareId = false }: { showSquareId?: boolean }) => {
+  const piececolor = useSelector((state: RootState) => state.chessGame.color);
+  const { movePiece } = useSocketLogic()
+
+  const pgn = useSelector((state: RootState) => state.chessGame.pgn);
+
+  const [chess, setChess] = useState(new Chess());
+
   const board = [];
 
-  
-  
-  
+  const [movefrom, setMovefrom] = useState<null | string>(null);
+  const [moveto, setMoveto] = useState<null | string>(null);
 
-  const [movefrom,setMovefrom] = useState<null | string>(null)
-  const [moveto,setMoveto] = useState<null | string>(null)
+  useEffect(() => {
+    const newchess = new Chess();
+    newchess.loadPgn(pgn);
+    setChess(newchess);
+    // console.log(chess.ascii())
+  }, [pgn]);
 
-  console.log(movefrom,moveto)
+  console.log(movefrom, moveto);
 
-  if (movefrom && moveto) {
-    try{
-      chess.move({
-        from: movefrom,
-        to: moveto
-      })
-      const audio = new Audio(moveaudio)
-      audio.play()
-    }catch(e){
-      toast.error("Invalid Move")
-      const audio = new Audio(wrongmoveaudio)
-      audio.play()
-      console.log('there is an error')
-      console.log(e)
+  useEffect(() => {
+    if (movefrom && moveto) {
+      try {
+        movePiece({ from: movefrom, to: moveto });
+        const audio = new Audio(moveaudio);
+        audio.play();
+      } catch (e) {
+        toast.error("Invalid Move");
+        const audio = new Audio(wrongmoveaudio);
+        audio.play();
+        console.log("there is an error");
+        console.log(e);
+      }
+
+      console.log("move done");
+      setMovefrom(null);
+      setMoveto(null);
     }
-    
-    console.log(chess.ascii())
-    console.log("move done")
-    setMovefrom(null)
-    setMoveto(null)
-  }
+  }, [movefrom, moveto]);
 
   const mp: any = {
     br: blackrook,
@@ -90,29 +94,38 @@ const Board = ({ showSquareId=false }: { showSquareId?: boolean }) => {
             src={mp[piece.color + piece.type]}
             alt="no image"
             data-position={squareId}
-            onClick={(e)=>{
-              if(!movefrom){
+            onClick={(e) => {
+              if (!movefrom) {
                 // setMovefrom(e.currentTarget.dataset.position!)
-                setMovefrom(squareId)
-              }else{
+                setMovefrom(squareId);
+              } else {
                 // setMoveto(e.currentTarget.dataset.position!)
-                setMoveto(squareId)
+                setMoveto(squareId);
               }
             }}
           />
         );
       }
       board.push(
-        <div className={`${squareColor} w-full aspect-square hover:border-2 ${movefrom==squareId || moveto==squareId?"border-2 border-zinc-900":""}`} key={squareId} data-position={squareId} onClick={(e)=>{
-          if(!movefrom){
-            setMovefrom(squareId)
+        <div
+          className={`${squareColor} w-full aspect-square hover:border-2 ${
+            movefrom == squareId || moveto == squareId
+              ? "border-2 border-zinc-900"
+              : ""
+          } ${piececolor === "black" ? "rotate-180" : ""}`}
+          key={squareId}
+          data-position={squareId}
+          onClick={(e) => {
+            if (!movefrom) {
+              setMovefrom(squareId);
 
-            // setMovefrom(e.currentTarget.dataset.position!)
-          }else{
-            // setMoveto(e.currentTarget.dataset.position!)
-            setMoveto(squareId)
-          }
-        }}>
+              // setMovefrom(e.currentTarget.dataset.position!)
+            } else {
+              // setMoveto(e.currentTarget.dataset.position!)
+              setMoveto(squareId);
+            }
+          }}
+        >
           {/* {squareId} */}
           {showSquareId ? (
             <span className="absolute text-xs text-zinc-900">{squareId}</span>
@@ -125,8 +138,16 @@ const Board = ({ showSquareId=false }: { showSquareId?: boolean }) => {
     }
   }
 
-  // console.log(chess.board());
-  return <div className="grid grid-cols-8 aspect-square w-full border-2">{board}</div>;
+  console.log(chess.ascii());
+  return (
+    <div
+      className={`grid grid-cols-8 aspect-square w-full border-2 ${
+        piececolor === "black" ? "rotate-180" : ""
+      }`}
+    >
+      {board}
+    </div>
+  );
 };
 
 export default Board;

@@ -47,7 +47,7 @@ export class Game {
     // if (this.board.moves.length % 2 === 1 && socket !== this.player2) {
     //   return;
     // }
-
+    console.log(move)
     try {
       this.board.move(move);
       console.log('inside try block')

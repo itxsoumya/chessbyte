@@ -17,10 +17,12 @@ export class GameManager {
     this.users.push(socket);
     // adding and handling listner to the user
     this.addHandler(socket);
+    console.log('total users: ',this.users.length)
   }
 
   removeUser(socket: WebSocket) {
     this.users.filter((user) => user !== socket);
+    console.log('total users: ',this.users.length)
   }
 
   private addHandler(socket: WebSocket) {
