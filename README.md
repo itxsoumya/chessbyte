@@ -1,5 +1,12 @@
 # chessbyte
 ongoing project
+## SMALL DEMO
+
+
+
+https://github.com/user-attachments/assets/833a869f-0072-41c0-bb57-0321a424db60
+
+
 ## Screenshot 
 ![Screenshot from 2025-06-25 22-39-05](https://github.com/user-attachments/assets/1f2c1773-8456-4752-b6a2-d18545816a57)
 
