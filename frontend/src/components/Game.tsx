@@ -7,12 +7,36 @@ import type { AppDispatch } from "@/store/store";
 import type { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import { useSocket } from "@/socketContext";
+import { useEffect, useState } from "react";
+import { Chess } from "chess.js";
 
 const Game = () => {
   const navigate = useNavigate();
   const isGameConnected = useSelector(
     (state: RootState) => state.chessGame.isGameConnected
   );
+  const pgn = useSelector((state: RootState) => state.chessGame.pgn);
+  
+  const [isWhiteTurn, setIsWhiteTurn] = useState(false);
+  const color = useSelector((state: RootState) => state.chessGame.color);
+  useEffect(()=>{
+    const chess = new Chess();
+    chess.loadPgn(pgn)
+    if(color==='white'){
+      if (chess.turn() === 'w'){
+        setIsWhiteTurn(true)
+      }else{
+        setIsWhiteTurn(false)
+      }
+    }else{
+      if (chess.turn() === 'w'){
+        setIsWhiteTurn(false)
+      }else{
+        setIsWhiteTurn(true)
+      }
+    }
+
+  },[pgn])
 
   const { startGame } = useSocket()
 
@@ -20,7 +44,7 @@ const Game = () => {
   return (
     <div className="bg-red-100x border-2x max-w-6xl mx-auto p-2 grid md:grid-cols-3 grid-cols-1">
       <div className="md:col-span-2">
-        <div className="flex justify-between border">
+        <div className={`flex justify-between border border-b-0 ${!isWhiteTurn?'border-t-green-400':''}`}>
           <div className="p-1 flex gap-2 items-center">
             <Avatar className="rounded-sm">
               <AvatarImage src="https://github.com/shadcn.png" />
@@ -34,7 +58,7 @@ const Game = () => {
           </div>
         </div>
         <Board />
-        <div className="flex justify-between border">
+        <div className={`flex justify-between border border-t-0 ${isWhiteTurn?'border-b-green-400':''}`}>
           <div className="p-1 flex gap-2 items-center">
             <Avatar className="rounded-sm">
               <AvatarImage src="https://github.com/shadcn.png" />

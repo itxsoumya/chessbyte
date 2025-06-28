@@ -4,11 +4,14 @@ import { setPgn } from "@/store/ChessGameSlice";
 import type { AppDispatch, RootState } from "@/store/store";
 import toast from "react-hot-toast";
 import { useSocket } from "../socketContext"; // your context
+import { X } from "lucide-react";
 
 const useSocketLogic = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const {socket} = useSocket(); // from context
+  const { socket } = useSocket(); // from context
   const pgn = useSelector((state: RootState) => state.chessGame.pgn);
+  const color = useSelector((state: RootState) => state.chessGame.color);
+
   const isGameConnected = useSelector(
     (state: RootState) => state.chessGame.isGameConnected
   );
@@ -17,6 +20,12 @@ const useSocketLogic = () => {
     try {
       const chess = new Chess();
       chess.loadPgn(pgn);
+      if (
+        (isGameConnected && chess.turn() == "w" && color === "black") ||
+        (isGameConnected && chess.turn() == "b" && color === "white")
+      ) {
+        throw Error("It's not your turn");
+      }
       chess.move(move);
       dispatch(setPgn(chess.pgn()));
       console.log(chess.ascii());

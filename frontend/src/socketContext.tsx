@@ -30,7 +30,9 @@ import {
         return;
       }
   
-      const socket = new WebSocket("ws://localhost:8080");
+    //   const socket = new WebSocket("ws://localhost:8080");
+    //   http://192.168.3.115:5173/
+    const socket = new WebSocket("ws://192.168.3.115:8080");
       socketRef.current = socket;
   
       socket.onopen = () => {
